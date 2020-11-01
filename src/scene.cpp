@@ -6,6 +6,8 @@ GLuint vbo;
 GLuint program;
 
 GLuint positionLocation, modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation;
+
+glm::mat4 modelMatrix, viewMatrix, projectionMatrix;
 void Init()
 {
 	float data[] = {
@@ -43,10 +45,16 @@ void Init()
 
 void Draw()
 {
-
+	// 设置MVP矩阵的值
+	glUseProgram(program);
+	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	glUseProgram(0);
 }
 
 void SetViewPortSize(float width, float height)
 {
-
+	// 设置投影矩阵
+	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
 }
