@@ -1,8 +1,34 @@
 #include "ggl.h"
 #include "scene.h"
+#include "utils.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
+
+// 加载外部的文件
+unsigned char* LoadFileContent(const char* path, int& filesize)
+{
+	unsigned char* fileContent = nullptr;
+	filesize = 0;
+	FILE* pFile = fopen(path, "rb");
+	if (pFile)
+	{
+		fseek(pFile, 0, SEEK_END);
+		int nLen = ftell(pFile);
+		if (nLen > 0)
+		{
+			rewind(pFile);
+			fileContent = new unsigned char[nLen + 1];
+			fread(fileContent, sizeof(unsigned char), nLen, pFile);
+			fileContent[nLen] = '\0';
+			filesize = nLen;
+		}
+		fclose(pFile);
+	}
+	return fileContent;
+}
+
+
 
 // 监听用户的操作
 LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
