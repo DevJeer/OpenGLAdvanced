@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include "../external/glew/glew.h"
+#include "../glew.h"
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
