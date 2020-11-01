@@ -11,9 +11,9 @@ glm::mat4 modelMatrix, viewMatrix, projectionMatrix;
 void Init()
 {
 	float data[] = {
-		-0.2f, -0.2f, -0.6f, 1.0f,
-		0.2f, -0.2f, -0.6f, 1.0f,
-		0.0f, 0.2f, -0.6f, 1.0f
+		-0.2f, -0.2f, 0.0f, 1.0f,
+		0.2f, -0.2f, 0.0f, 1.0f,
+		0.0f, 0.2f, 0.0f, 1.0f
 	};
 	glGenBuffers(1, &vbo);
 	// 设置当前的gl_array_buffer
@@ -41,6 +41,7 @@ void Init()
 	viewMatrixLocation = glGetUniformLocation(program, "ViewMatrix");
 	projectionMatrixLocation = glGetUniformLocation(program, "ProjectionMatrix");
 
+	modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
 }
 
 // 设置视口的大小
@@ -52,6 +53,8 @@ void SetViewPortSize(float width, float height)
 
 void Draw()
 {
+	// 获取每帧的时间
+	float frameTime = GetFrameTime();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// 设置MVP矩阵的值
@@ -65,6 +68,7 @@ void Draw()
 	glEnableVertexAttribArray(positionLocation);
 	// 填充插槽的值
 	glVertexAttribPointer(positionLocation, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
+	// 分配给gpu中的core
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glUseProgram(0);

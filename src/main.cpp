@@ -4,6 +4,7 @@
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
+#pragma comment(lib, "winmm.lib")
 
 // 加载外部的文件
 unsigned char* LoadFileContent(const char* path, int& filesize)
@@ -26,6 +27,17 @@ unsigned char* LoadFileContent(const char* path, int& filesize)
 		fclose(pFile);
 	}
 	return fileContent;
+}
+
+float GetFrameTime()
+{
+	static unsigned long lastTime = 0, timeSinceComputerStart = 0;
+	timeSinceComputerStart = timeGetTime();
+	// 得到每帧的时间
+	unsigned long frameTime = lastTime == 0 ? 0 : timeSinceComputerStart - lastTime;
+	// 设置lastTime的值
+	lastTime = timeSinceComputerStart;
+	return float(frameTime) / 1000.0f;
 }
 
 
