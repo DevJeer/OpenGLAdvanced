@@ -43,18 +43,29 @@ void Init()
 
 }
 
+// 设置视口的大小
+void SetViewPortSize(float width, float height)
+{
+	// 设置投影矩阵
+	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
+}
+
 void Draw()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// 设置MVP矩阵的值
 	glUseProgram(program);
 	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	// 当前程序的绘制集
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	// 开启哪个插槽
+	glEnableVertexAttribArray(positionLocation);
+	// 填充插槽的值
+	glVertexAttribPointer(positionLocation, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glUseProgram(0);
-}
-
-void SetViewPortSize(float width, float height)
-{
-	// 设置投影矩阵
-	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
 }
