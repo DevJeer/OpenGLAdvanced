@@ -68,3 +68,17 @@ unsigned char* DecodeBMP(unsigned char* bmpFileData, int& width, int& height)
 	}
 	return nullptr;
 }
+// 生成2D纹理对象
+GLuint CreateTexture2D(unsigned char* pixelData, int width, int height, GLenum type)
+{
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, pixelData);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return texture;
+}
