@@ -82,3 +82,26 @@ GLuint CreateTexture2D(unsigned char* pixelData, int width, int height, GLenum t
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return texture;
 }
+// 从BMP文件中创建纹理对象
+GLuint CreateTexture2DFromBMP(const char* bmpPath)
+{
+	int nFileSize = 0;
+	// 加载文件内容
+	unsigned char* bmpFileContent = LoadFileContent(bmpPath, nFileSize);
+	if (bmpFileContent == nullptr)
+	{
+		return 0;
+	}
+	// 解码BMP文件
+	int bmpWidth = 0, bmpHeight = 0;
+	unsigned char* pixelData = DecodeBMP(bmpFileContent, bmpWidth, bmpHeight);
+	if (bmpWidth = 0)
+	{
+		delete bmpFileContent;
+		return 0;
+	}
+	// 创建纹理对象
+	GLuint texture = CreateTexture2D(pixelData, bmpWidth, bmpHeight, GL_RGB);
+	delete bmpFileContent;
+	return texture;
+}
