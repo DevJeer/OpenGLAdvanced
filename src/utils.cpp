@@ -105,3 +105,13 @@ GLuint CreateTexture2DFromBMP(const char* bmpPath)
 	delete bmpFileContent;
 	return texture;
 }
+// 创建vbo / ebo的方法
+GLuint CreateBufferObject(GLenum bufferType, GLsizeiptr size, GLenum usage, void* data /*= nullptr*/)
+{
+	GLuint object;
+	glGenBuffers(1, &object);
+	glBindBuffer(bufferType, object);
+	glBufferData(bufferType, size, data, usage);
+	glBindBuffer(bufferType, 0);
+	return object;
+}
