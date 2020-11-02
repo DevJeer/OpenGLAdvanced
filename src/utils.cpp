@@ -95,7 +95,7 @@ GLuint CreateTexture2DFromBMP(const char* bmpPath)
 	// ½âÂëBMPÎÄ¼ş
 	int bmpWidth = 0, bmpHeight = 0;
 	unsigned char* pixelData = DecodeBMP(bmpFileContent, bmpWidth, bmpHeight);
-	if (bmpWidth = 0)
+	if (bmpWidth == 0)
 	{
 		delete bmpFileContent;
 		return 0;
