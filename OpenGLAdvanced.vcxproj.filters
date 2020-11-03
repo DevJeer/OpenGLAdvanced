@@ -24,6 +24,12 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\ground.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vertexbuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ggl.h">
@@ -33,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vertexbuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ground.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
