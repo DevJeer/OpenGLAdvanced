@@ -41,24 +41,6 @@ void Ground::Init()
 	mVBO = CreateBufferObject(GL_ARRAY_BUFFER, sizeof(Vertex) * 1600, GL_STATIC_DRAW, mVertexBuffer->mVertexes);
 
 	// 加载shader
-	int fileSize = 0;
-	unsigned char* shaderCode = LoadFileContent("Res/ground.vs", fileSize);
-	GLuint vsShader = CompileShader(GL_VERTEX_SHADER, (char*)shaderCode);
-	delete shaderCode;
-
-	shaderCode = LoadFileContent("Res/ground.fs", fileSize);
-	GLuint fsShader = CompileShader(GL_FRAGMENT_SHADER, (char*)shaderCode);
-	delete shaderCode;
-	// 创建shader程序
-	mProgram = CreateProgram(vsShader, fsShader);
-	glDeleteShader(vsShader);
-	glDeleteShader(fsShader);
-
-	// 获取插槽的位置
-	mPositionLocation = glGetAttribLocation(mProgram, "position");
-	mColorLocation = glGetAttribLocation(mProgram, "color");
-	mNormalLocation = glGetAttribLocation(mProgram, "normal");
-	mModelMatrixLocation = glGetUniformLocation(mProgram, "ModelMatrix");
-	mViewMatrixLocation = glGetUniformLocation(mProgram, "ViewMatrix");
-	mProjectionMartixLocation = glGetUniformLocation(mProgram, "ProjectionMatrix");
+	mShader = new Shader;
+	mShader->Init("Res/ground.vs", "Res/ground.fs");
 }

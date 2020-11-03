@@ -1,13 +1,12 @@
 #pragma once
 #include "utils.h"
 #include "vertexbuffer.h"
+#include "shader.h"
 
 class Ground {
 	VertexBuffer *mVertexBuffer;
 	GLuint mVBO;
-	GLuint mProgram;
-	GLint mPositionLocation, mColorLocation, mNormalLocation;
-	GLint mModelMatrixLocation, mViewMatrixLocation, mProjectionMartixLocation;
+	Shader *mShader;
 public:
 	void Init();
 };
