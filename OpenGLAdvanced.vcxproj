@@ -143,6 +143,7 @@
     <ClCompile Include="src\ground.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\vertexbuffer.cpp" />
   </ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="src\ggl.h" />
     <ClInclude Include="src\ground.h" />
     <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\vertexbuffer.h" />
   </ItemGroup>
