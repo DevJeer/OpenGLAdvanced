@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "ggl.h"
 #include "utils.h"
+#include "ground.h"
 
 GLuint vbo, ebo;
 GLuint program;
@@ -8,10 +9,10 @@ GLuint program;
 GLuint positionLocation, modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation, colorLocation;
 // 纹理坐标和纹理的插槽
 GLuint texcoordLocation, textureLocation;
-
 GLuint texture;
 
 glm::mat4 modelMatrix, viewMatrix, projectionMatrix;
+Ground ground;
 void Init()
 {
 	float data[] = {
@@ -60,6 +61,8 @@ void Init()
 	modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
 	// 创建纹理对象
 	texture = CreateTexture2DFromBMP("Res/test.bmp");
+
+	ground.Init();
 }
 
 // 设置视口的大小
@@ -75,6 +78,7 @@ void Draw()
 	float frameTime = GetFrameTime();
 	glClearColor(0.1f, 0.4f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	ground.Draw(viewMatrix, projectionMatrix);
 	// 设置MVP矩阵的值
 	glUseProgram(program);
 	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));

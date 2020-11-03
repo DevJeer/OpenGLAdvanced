@@ -31,3 +31,21 @@ void Shader::Init(const char* vs, const char* fs)
 		mNormalLocation = glGetAttribLocation(mProgram, "normal");
 	}
 }
+// 绑定mvp矩阵
+void Shader::Bind(float* M, float* V, float* P)
+{
+	glUseProgram(mProgram);
+	// 填充uniform的值
+	glUniformMatrix4fv(mModelMatrixLocation, 1, GL_FALSE, M);
+	glUniformMatrix4fv(mViewMatrixLocation, 1, GL_FALSE, V);
+	glUniformMatrix4fv(mProjectionMatrixLocation, 1, GL_FALSE, P);
+	// 填充attrib的值
+	glEnableVertexAttribArray(mPositionLocation);
+	glVertexAttribPointer(mPositionLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	glEnableVertexAttribArray(mColorLocation);
+	glVertexAttribPointer(mColorLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 4));
+	glEnableVertexAttribArray(mTexcoordLocation);
+	glVertexAttribPointer(mTexcoordLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 8));
+	glEnableVertexAttribArray(mNormalLocation);
+	glVertexAttribPointer(mNormalLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 12));
+}
