@@ -15,7 +15,8 @@ struct UniformTexture
 class Shader {
 public:
 	GLuint mProgram;
-	UniformTexture mTexture;
+	// 保存多个纹理
+	std::map<std::string, UniformTexture*> mUniformTextures;
 	GLint mModelMatrixLocation, mViewMatrixLocation, mProjectionMatrixLocation;
 	GLint mPositionLocation, mColorLocation, mTexcoordLocation, mNormalLocation;
 	void Init(const char* vs, const char* fs);

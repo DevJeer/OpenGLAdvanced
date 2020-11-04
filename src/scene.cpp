@@ -34,6 +34,7 @@ void Init()
 	shader->Init("Res/test.vs", "Res/test.fs");
 	// 使用纹理对象
 	shader->SetTexture("U_Texture", "Res/test.bmp");
+	shader->SetTexture("U_Texture", "Res/test2.bmp");
 
 	modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
 

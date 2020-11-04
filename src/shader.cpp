@@ -40,10 +40,14 @@ void Shader::Bind(float* M, float* V, float* P)
 	glUniformMatrix4fv(mViewMatrixLocation, 1, GL_FALSE, V);
 	glUniformMatrix4fv(mProjectionMatrixLocation, 1, GL_FALSE, P);
 	// 设置纹理
-	if (mTexture.mLocation != -1)
+	int iIndex = 0;
+	for (auto iter = mUniformTextures.begin(); iter != mUniformTextures.end(); ++iter)
 	{
-		glBindTexture(GL_TEXTURE_2D, mTexture.mTexture);
-		glUniform1i(mTexture.mLocation, 0);
+		// 激活对应的texture unit
+		glActiveTexture(GL_TEXTURE0 + iIndex);
+		glBindTexture(GL_TEXTURE_2D, iter->second->mTexture);
+		// 填充对应的texture unit
+		glUniform1i(iter->second->mLocation, iIndex);
 	}
 	// 填充attrib的值
 	glEnableVertexAttribArray(mPositionLocation);
@@ -58,13 +62,25 @@ void Shader::Bind(float* M, float* V, float* P)
 // 设置纹理
 void Shader::SetTexture(const char* name, const char* imagePath)
 {
-	if (mTexture.mLocation == -1)
+	auto iter = mUniformTextures.find(name);
+	// 如果没有找到相同的纹理
+	if (iter == mUniformTextures.end())
 	{
+		// 尝试获取插槽
 		GLint location = glGetUniformLocation(mProgram, name);
-		if (location != 1)
+		if (location != -1)
 		{
-			mTexture.mLocation = location;
-			mTexture.mTexture = CreateTexture2DFromBMP(imagePath);
+			UniformTexture* t = new UniformTexture;
+			t->mLocation = location;
+			t->mTexture = CreateTexture2DFromBMP(imagePath);
+			mUniformTextures.insert(std::pair<std::string, UniformTexture*>(name, t));
 		}
+	}
+	else
+	{
+		// 先删除当前的纹理
+		glDeleteTextures(1, &iter->second->mTexture);
+		// 加载新的纹理
+		iter->second->mTexture = CreateTexture2DFromBMP(imagePath);
 	}
 }
