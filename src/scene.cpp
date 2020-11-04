@@ -7,9 +7,6 @@
 GLuint vbo, ebo;
 GLuint program;
 
-// 纹理坐标和纹理的插槽
-GLuint textureLocation;
-GLuint texture;
 
 glm::mat4 modelMatrix, viewMatrix, projectionMatrix;
 Ground ground;
@@ -35,14 +32,10 @@ void Init()
 
 	shader = new Shader;
 	shader->Init("Res/test.vs", "Res/test.fs");
-
-	// 获取纹理的插槽
-	textureLocation = glGetUniformLocation(program, "U_Texture");
-
+	// 使用纹理对象
+	shader->SetTexture("U_Texture", "Res/test.bmp");
 
 	modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
-	// 创建纹理对象
-	texture = CreateTexture2DFromBMP("Res/test.bmp");
 
 	ground.Init();
 }
@@ -63,16 +56,10 @@ void Draw()
 	// 绘制地面
 	ground.Draw(viewMatrix, projectionMatrix);
 
-
 	// 绑定vbo
 	vertexbuffer->Bind();
 	// 绑定shader
 	shader->Bind(glm::value_ptr(modelMatrix), glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix));
-
-	// 设置当前要操作的纹理对象
-	glBindTexture(GL_TEXTURE_2D, texture);
-	// 告诉纹理对象资源在哪儿
-	glUniform1i(textureLocation, 0);
 	
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	vertexbuffer->Unbind();

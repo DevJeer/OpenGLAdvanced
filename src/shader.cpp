@@ -39,6 +39,12 @@ void Shader::Bind(float* M, float* V, float* P)
 	glUniformMatrix4fv(mModelMatrixLocation, 1, GL_FALSE, M);
 	glUniformMatrix4fv(mViewMatrixLocation, 1, GL_FALSE, V);
 	glUniformMatrix4fv(mProjectionMatrixLocation, 1, GL_FALSE, P);
+	// 设置纹理
+	if (mTexture.mLocation != -1)
+	{
+		glBindTexture(GL_TEXTURE_2D, mTexture.mTexture);
+		glUniform1i(mTexture.mLocation, 0);
+	}
 	// 填充attrib的值
 	glEnableVertexAttribArray(mPositionLocation);
 	glVertexAttribPointer(mPositionLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
@@ -48,4 +54,17 @@ void Shader::Bind(float* M, float* V, float* P)
 	glVertexAttribPointer(mTexcoordLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 8));
 	glEnableVertexAttribArray(mNormalLocation);
 	glVertexAttribPointer(mNormalLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 12));
+}
+// 设置纹理
+void Shader::SetTexture(const char* name, const char* imagePath)
+{
+	if (mTexture.mLocation == -1)
+	{
+		GLint location = glGetUniformLocation(mProgram, name);
+		if (location != 1)
+		{
+			mTexture.mLocation = location;
+			mTexture.mTexture = CreateTexture2DFromBMP(imagePath);
+		}
+	}
 }
