@@ -5,7 +5,6 @@
 
 class Ground {
 	VertexBuffer *mVertexBuffer;
-	GLuint mVBO;
 	Shader *mShader;
 	glm::mat4 mModelMatrix;
 public:

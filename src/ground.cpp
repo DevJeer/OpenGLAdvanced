@@ -37,8 +37,6 @@ void Ground::Init()
 			}
 		}
 	}
-	// 创建vbo对象
-	mVBO = CreateBufferObject(GL_ARRAY_BUFFER, sizeof(Vertex) * 1600, GL_STATIC_DRAW, mVertexBuffer->mVertexes);
 
 	// 加载shader
 	mShader = new Shader;
@@ -49,7 +47,7 @@ void Ground::Init()
 void Ground::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMartix)
 {
 	glEnable(GL_DEPTH_TEST);
-	glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+	mVertexBuffer->Bind();
 	mShader->Bind(glm::value_ptr(mModelMatrix), glm::value_ptr(viewMatrix), glm::value_ptr(projectionMartix));
 	for (int i = 0; i < 400; i++)
 	{
