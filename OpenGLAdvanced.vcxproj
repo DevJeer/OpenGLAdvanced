@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="src\ground.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\utils.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="src\ggl.h" />
     <ClInclude Include="src\ground.h" />
+    <ClInclude Include="src\model.h" />
     <ClInclude Include="src\scene.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\utils.h" />
