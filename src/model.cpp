@@ -96,6 +96,22 @@ void Model::Init(const char* modelPath)
 				//printf("draw command : %s\n", szOneLine);
 			}
 		}
-		delete fileContent;
+	}
+	delete fileContent;
+
+	// 转换成为opengl中可用的数据
+	int vertexCount = (int)vertexes.size();
+	mVertexBuffer = new VertexBuffer;
+	mVertexBuffer->SetSize(vertexCount);
+	for (int i = 0; i < vertexCount; ++i)
+	{
+		float* temp = positions[vertexes[i].posIndex - 1].v;
+		mVertexBuffer->SetPosition(i, temp[0], temp[1], temp[2]);
+		
+		temp = texcoords[vertexes[i].texcoordIndex - 1].v;
+		mVertexBuffer->SetTexcrood(i, temp[0], temp[1]);
+
+		temp = normals[vertexes[i].normalIndex - 1].v;
+		mVertexBuffer->SetNormal(i, temp[0], temp[1], temp[2]);
 	}
 }
