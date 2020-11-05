@@ -13,11 +13,19 @@ void Model::Init(const char* modelPath)
 		float v[3];
 	};
 
+	struct VertexDefine {
+		int posIndex;
+		int texcoordIndex;
+		int normalIndex;
+	};
+
 	int nFileSize = 0;
 	unsigned char* fileContent = LoadFileContent(modelPath, nFileSize);
 	if (fileContent == nullptr)
 		return;
 	std::vector<FloatData> positions, texcoords, normals;
+	// 存放所有的索引
+	std::vector<VertexDefine> vertexes;
 	std::stringstream ssFileContent((char*)fileContent);
 	std::string temp;
 	char szOneLine[256];
@@ -66,7 +74,26 @@ void Model::Init(const char* modelPath)
 			}
 			else if (szOneLine[0] == 'f')  // 当前是索引
 			{
-				printf("draw command : %s\n", szOneLine);
+				std::stringstream ssOneLine(szOneLine);
+				ssOneLine >> temp;
+				std::string vertexStr;
+				for (int i = 0; i < 3; ++i)
+				{
+					ssOneLine >> vertexStr;
+					size_t pos = vertexStr.find_first_of('/');
+					std::string posIndexStr = vertexStr.substr(0, pos);
+
+					size_t pos2 = vertexStr.find_first_of('/', pos + 1);
+					std::string texcoordIndexStr = vertexStr.substr(pos + 1, pos2 - 1 - pos);
+					std::string normalIndexStr = vertexStr.substr(pos2 + 1, vertexStr.length() - 1 - pos2);
+
+					VertexDefine vd;
+					vd.posIndex = atoi(posIndexStr.c_str());
+					vd.texcoordIndex = atoi(texcoordIndexStr.c_str());
+					vd.normalIndex = atoi(normalIndexStr.c_str());
+					vertexes.push_back(vd);
+				}
+				//printf("draw command : %s\n", szOneLine);
 			}
 		}
 		delete fileContent;
