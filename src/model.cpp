@@ -118,6 +118,10 @@ void Model::Init(const char* modelPath)
 	// 加载shader程序
 	mShader = new Shader;
 	mShader->Init("Res/model.vs", "Res/model.fs");
+	// 设置环境光
+	mShader->SetVec4("U_LightAmbient", 1.0f, 1.0f, 1.0f, 1.0f);
+	// 设置环境光 材质
+	mShader->SetVec4("U_AmbientMaterial", 0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
