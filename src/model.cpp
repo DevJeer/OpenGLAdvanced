@@ -114,4 +114,25 @@ void Model::Init(const char* modelPath)
 		temp = normals[vertexes[i].normalIndex - 1].v;
 		mVertexBuffer->SetNormal(i, temp[0], temp[1], temp[2]);
 	}
+
+	// 加载shader程序
+	mShader = new Shader;
+	mShader->Init("Res/model.vs", "Res/model.fs");
 }
+
+void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
+{
+	// 开启深度测试
+	glEnable(GL_DEPTH_TEST);
+
+	mVertexBuffer->Bind();
+	mShader->Bind(glm::value_ptr(mModelMatrix), glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix));
+	glDrawArrays(GL_TRIANGLES, 0, mVertexBuffer->mVertexCount);
+	mVertexBuffer->Unbind();
+}
+// 设置模型的模型矩阵
+void Model::SetPosition(float x, float y, float z)
+{
+	mModelMatrix = glm::translate(x, y, z);
+}
+

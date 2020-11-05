@@ -49,6 +49,11 @@ void Shader::Bind(float* M, float* V, float* P)
 		// 填充对应的texture unit
 		glUniform1i(iter->second->mLocation, iIndex);
 	}
+	// 设置Vec4的值
+	for (auto iter = mUniformVec4s.begin(); iter != mUniformVec4s.end(); ++iter)
+	{
+		glUniform4fv(iter->second->mLocation, 1, iter->second->v);
+	}
 	// 填充attrib的值
 	glEnableVertexAttribArray(mPositionLocation);
 	glVertexAttribPointer(mPositionLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
@@ -82,5 +87,35 @@ void Shader::SetTexture(const char* name, const char* imagePath)
 		glDeleteTextures(1, &iter->second->mTexture);
 		// 加载新的纹理
 		iter->second->mTexture = CreateTexture2DFromBMP(imagePath);
+	}
+}
+
+// 设置uniform4f值
+void Shader::SetVec4(const char* name, float x, float y, float z, float w)
+{
+	auto iter = mUniformVec4s.find(name);
+	if (iter == mUniformVec4s.end())
+	{
+		GLint location = glGetUniformLocation(mProgram, name);
+		// 找到位置
+		if (location != -1)
+		{
+			UniformVector4f* v = new UniformVector4f;
+			v->v[0] = x;
+			v->v[1] = y;
+			v->v[2] = z;
+			v->v[3] = w;
+			v->mLocation = location;
+			// 添加pair (键值对)
+			mUniformVec4s.insert(std::pair<std::string, UniformVector4f*>(name, v));
+		}
+	}
+	else
+	{
+		// 更新对应的插槽
+		iter->second->v[0] = x;
+		iter->second->v[1] = y;
+		iter->second->v[2] = z;
+		iter->second->v[3] = w;
 	}
 }
