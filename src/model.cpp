@@ -122,6 +122,14 @@ void Model::Init(const char* modelPath)
 	mShader->SetVec4("U_LightAmbient", 1.0f, 1.0f, 1.0f, 1.0f);
 	// 设置环境光 材质
 	mShader->SetVec4("U_AmbientMaterial", 0.1f, 0.1f, 0.1f, 1.0f);
+
+
+	// 设置光的位置
+	mShader->SetVec4("U_LightPos", 0.0f, 1.0f, 1.0f, 0.0f);
+	// 设置漫反射
+	mShader->SetVec4("U_LightDiffuse", 1.0f, 1.0f, 1.0f, 1.0f);
+	// 设置漫反射 材质
+	mShader->SetVec4("U_DiffuseMaterial", 0.6f, 0.6f, 0.6f, 1.0f);
 }
 
 void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
@@ -130,7 +138,10 @@ void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
 	glEnable(GL_DEPTH_TEST);
 
 	mVertexBuffer->Bind();
+	glm::mat4 it = glm::inverseTranspose(mModelMatrix);
 	mShader->Bind(glm::value_ptr(mModelMatrix), glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix));
+	// 设置法线的矩阵
+	glUniformMatrix4fv(glGetUniformLocation(mShader->mProgram, "IT_ModelMatrix"), 1, GL_FALSE, glm::value_ptr(it));
 	glDrawArrays(GL_TRIANGLES, 0, mVertexBuffer->mVertexCount);
 	mVertexBuffer->Unbind();
 }
