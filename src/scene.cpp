@@ -95,7 +95,7 @@ void Draw()
 	// 绘制天空盒
 	skybox.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 	// 绘制地面
-	ground.Draw(viewMatrix, projectionMatrix);
+	//ground.Draw(viewMatrix, projectionMatrix);
 	// 绘制模型
 	//model.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 	// 绘制牛头

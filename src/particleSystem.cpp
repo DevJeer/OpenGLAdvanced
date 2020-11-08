@@ -6,8 +6,13 @@ void ParticleSystem::Init(float x, float y, float z)
 {
 	mModelMatrix = glm::translate(x, y, z);
 	mVertexBuffer = new VertexBuffer;
-	mVertexBuffer->SetSize(1);
-	mVertexBuffer->SetColor(0, 0.1f, 0.4f, 0.6f);
+	int particleCount = 180;
+	mVertexBuffer->SetSize(particleCount);
+	for (int i = 0; i < particleCount; ++i)
+	{
+		mVertexBuffer->SetPosition(i, 2.0f * cosf(float(i) * 8.0f * 3.14f / 180.0f), 0.0f, 2.0f * sinf(float(i) * 8.0f * 3.14f / 180.0f));
+		mVertexBuffer->SetColor(i, 0.1f, 0.4f, 0.6f);
+	}
 	mShader = new Shader;
 	mShader->Init("Res/particle.vs", "Res/particle.fs");
 	mShader->SetTexture("U_Texture", CreateProcedureTexture(128));
