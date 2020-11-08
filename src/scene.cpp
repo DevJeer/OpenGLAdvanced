@@ -5,6 +5,7 @@
 #include "shader.h"
 #include "model.h"
 #include "skybox.h"
+#include "particleSystem.h"
 
 GLuint vbo, ebo;
 GLuint program;
@@ -22,6 +23,9 @@ Ground ground;
 Model model, niutou;
 // 天空盒
 SkyBox skybox;
+// 粒子系统
+ParticleSystem ps;
+
 void InitTriangle()
 {
 	// 使用Vertexbuffer来绘制
@@ -70,6 +74,9 @@ void Init()
 	niutou.Init("Res/niutou.obj");
 	niutou.SetTexture("Res/niutou.bmp");
 	niutou.mModelMatrix = glm::translate(-0.5f, 0.0f, 4.0f) * glm::scale(0.05f, 0.05f, 0.05f);
+
+	// 粒子系统初始化
+	ps.Init(0.0f, 0.0f, 0.0f);
 }
 
 // 设置视口的大小
