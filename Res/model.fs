@@ -5,15 +5,19 @@ precision mediump float;
 uniform vec4 U_LightPos;
 uniform vec4 U_LightAmbient;
 uniform vec4 U_LightDiffuse;
-//uniform vec4 U_LightSpecular;
+// 镜面反射
+uniform vec4 U_LightSpecular;
 uniform vec4 U_AmbientMaterial;
 uniform vec4 U_DiffuseMaterial;
-//uniform vec4 U_SpecularMaterial;
-//uniform vec4 U_CameraPos;
-//uniform vec4 U_LightOpt;
+// 镜面反射的材质
+uniform vec4 U_SpecularMaterial;
+// 摄像机的位置
+uniform vec4 U_CameraPos;
+// ？？？
+uniform vec4 U_LightOpt;
 varying vec4 V_Color;
 varying vec4 V_Normal;
-//varying vec4 V_WorldPos;
+varying vec4 V_WorldPos;
 //varying vec4 V_Texcoord;
 //vec4 GetPointLight()
 //{
@@ -41,18 +45,18 @@ void main()
 	vec3 n=normalize(V_Normal.xyz);
 	float diffuseIntensity=max(0.0,dot(L,n));
 	vec4 diffuseColor=U_LightDiffuse*U_DiffuseMaterial*diffuseIntensity;
-	//vec4 specularColor=vec4(0.0,0.0,0.0,0.0);
-	//if(diffuseIntensity!=0.0){
-	//	vec3 reflectDir=normalize(reflect(-L,n));
-	//	vec3 viewDir=normalize(U_CameraPos.xyz-V_WorldPos.xyz);
-	//	specularColor=U_LightSpecular*U_SpecularMaterial*pow(max(0.0,dot(viewDir,reflectDir)),U_LightOpt.x);
-	//}
+	vec4 specularColor=vec4(0.0,0.0,0.0,0.0);
+	if(diffuseIntensity!=0.0){
+		vec3 reflectDir=normalize(reflect(-L,n));
+		vec3 viewDir=normalize(U_CameraPos.xyz-V_WorldPos.xyz);
+		specularColor=U_LightSpecular*U_SpecularMaterial*pow(max(0.0,dot(viewDir,reflectDir)),U_LightOpt.x);
+	}
 	//if(U_LightOpt.w==1.0){
 	//	color=ambientColor+diffuseColor*texture2D(U_Texture,V_Texcoord.xy)+specularColor;
 	//}else{
 	//	color=ambientColor+diffuseColor+GetPointLight();
 	//	color=color*texture2D(U_Texture,V_Texcoord.xy);
 	//}
-	color=ambientColor+diffuseColor;
+	color=ambientColor+diffuseColor+specularColor;
 	gl_FragColor=color;
 }

@@ -115,6 +115,7 @@ void Model::Init(const char* modelPath)
 		mVertexBuffer->SetNormal(i, temp[0], temp[1], temp[2]);
 	}
 
+
 	// 加载shader程序
 	mShader = new Shader;
 	mShader->Init("Res/model.vs", "Res/model.fs");
@@ -130,6 +131,15 @@ void Model::Init(const char* modelPath)
 	mShader->SetVec4("U_LightDiffuse", 1.0f, 1.0f, 1.0f, 1.0f);
 	// 设置漫反射 材质
 	mShader->SetVec4("U_DiffuseMaterial", 0.6f, 0.6f, 0.6f, 1.0f);
+
+	// 设置镜面反射
+	mShader->SetVec4("U_LightSpecular", 1.0f, 1.0f, 1.0f, 1.0f);
+	// 设置镜面反射的材质
+	mShader->SetVec4("U_SpecularMaterial", 1.0f, 1.0f, 1.0f, 1.0f);
+	// 设置摄像机的位置
+	mShader->SetVec4("U_CameraPos", 0.0f, 0.0f, 0.0f, 1.0f);
+	// 决定镜面反射光圈的大小
+	mShader->SetVec4("U_LightOpt", 32.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
