@@ -16,3 +16,5 @@ GLuint CreateTexture2D(unsigned char* pixelData, int width, int height, GLenum t
 GLuint CreateTexture2DFromBMP(const char* bmpPath);
 
 GLuint CreateBufferObject(GLenum bufferType, GLsizeiptr size, GLenum usage, void* data = nullptr);
+
+GLuint CreateProcedureTexture(int size);

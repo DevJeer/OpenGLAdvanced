@@ -115,3 +115,34 @@ GLuint CreateBufferObject(GLenum bufferType, GLsizeiptr size, GLenum usage, void
 	glBindBuffer(bufferType, 0);
 	return object;
 }
+// 创建程序纹理
+GLuint CreateProcedureTexture(int size)
+{
+	// 存放程序纹理的数据
+	unsigned char* imageData = new unsigned char[size * size * 4];
+	float halfSize = (float)size / 2.0f;
+	float maxDistance = sqrtf(halfSize * halfSize + halfSize * halfSize);
+	float centerX = halfSize;
+	float centerY = halfSize;
+
+	for (int y = 0; y < size; ++y)
+	{
+		for (int x = 0; x < size; ++x)
+		{
+			int currentPixelOffset = (x + y * size) * 4;
+			imageData[currentPixelOffset] = 255;
+			imageData[currentPixelOffset + 1] = 255;
+			imageData[currentPixelOffset + 2] = 255;
+			float deltaX = (float)x - centerX;
+			float deltaY = (float)y - centerY;
+			// 获取每个点的距离 从而计算出当前纹理a值
+			float distance = sqrtf(deltaX * deltaX + deltaY * deltaY);
+			float alpha = powf(1.0f - (distance * maxDistance), 8.0f);
+			alpha = alpha > 1.0f ? 1.0f : alpha;
+			imageData[currentPixelOffset + 3] = (unsigned char)(alpha * 255.0f);
+		}
+	}
+	GLuint texture = CreateTexture2D(imageData, size, size, GL_RGBA);
+	delete imageData;
+	return texture;
+}
