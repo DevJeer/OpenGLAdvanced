@@ -145,11 +145,12 @@ void Model::Init(const char* modelPath)
 	mShader->SetVec4("U_LightOpt", 32.0f, 0.0f, 0.0f, 0.0f);
 }
 
-void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
+void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix, float x, float y, float z)
 {
+	mShader->SetVec4("U_CameraPos", x, y, z, 1.0);
+
 	// ¿ªÆôÉî¶È²âÊÔ
 	glEnable(GL_DEPTH_TEST);
-
 	mVertexBuffer->Bind();
 	glm::mat4 it = glm::inverseTranspose(mModelMatrix);
 	mShader->Bind(glm::value_ptr(mModelMatrix), glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix));

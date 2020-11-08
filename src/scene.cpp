@@ -4,13 +4,14 @@
 #include "ground.h"
 #include "shader.h"
 #include "model.h"
+#include "skybox.h"
 
 GLuint vbo, ebo;
 GLuint program;
 
 
 glm::mat4 modelMatrix, viewMatrix, projectionMatrix;
-
+glm::vec3 cameraPos(10.0f, 10.0f, 10.0f);
 
 Shader* shader;
 VertexBuffer* vertexbuffer;
@@ -19,6 +20,8 @@ VertexBuffer* vertexbuffer;
 Ground ground;
 // 模型
 Model model;
+// 天空盒
+SkyBox skybox;
 void InitTriangle()
 {
 	// 使用Vertexbuffer来绘制
@@ -57,10 +60,12 @@ void DrawTriangle()
 
 void Init()
 {
+	viewMatrix = glm::lookAt(cameraPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	ground.Init();
 	model.Init("Res/Sphere.obj");
 	model.SetTexture("Res/earth.bmp");
-	model.SetPosition(0.0f, 0.0f, -5.0f);
+	model.SetPosition(0.0f, 0.0f, 0.0f);
+	skybox.Init("Res/");
 }
 
 // 设置视口的大小
@@ -76,8 +81,10 @@ void Draw()
 	float frameTime = GetFrameTime();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// 绘制天空盒
+	skybox.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 	// 绘制地面
 	ground.Draw(viewMatrix, projectionMatrix);
 	// 绘制模型
-	model.Draw(viewMatrix, projectionMatrix);
+	model.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 }

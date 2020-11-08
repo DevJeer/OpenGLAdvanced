@@ -12,7 +12,7 @@ public:
 	Model();
 	void Init(const char* modelPath);
 
-	void Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix);
+	void Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix, float x, float y, float z);
 
 	void SetPosition(float x, float y, float z);
 
