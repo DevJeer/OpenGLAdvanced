@@ -146,6 +146,7 @@
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\skybox.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\vertexbuffer.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\scene.h" />
     <ClInclude Include="src\shader.h" />
+    <ClInclude Include="src\skybox.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\vertexbuffer.h" />
   </ItemGroup>
