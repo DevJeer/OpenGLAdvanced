@@ -90,6 +90,29 @@ void Shader::SetTexture(const char* name, const char* imagePath)
 	}
 }
 
+void Shader::SetTexture(const char* name, GLuint texture)
+{
+	auto iter = mUniformTextures.find(name);
+	// 如果查找不到
+	if (iter == mUniformTextures.end())
+	{
+		GLint location = glGetUniformLocation(mProgram, name);
+		if (location != -1)
+		{
+			UniformTexture* t = new UniformTexture;
+			t->mLocation = location;
+			t->mTexture = texture;
+			mUniformTextures.insert(std::pair<std::string, UniformTexture*>(name, t));
+		}
+	}
+	else
+	{
+		// 查找到了，那么就是替换当前的纹理对象
+		glDeleteTextures(1, &iter->second->mTexture);
+		iter->second->mTexture = texture;
+	}
+}
+
 // 设置uniform4f值
 void Shader::SetVec4(const char* name, float x, float y, float z, float w)
 {

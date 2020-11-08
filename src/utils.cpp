@@ -137,7 +137,7 @@ GLuint CreateProcedureTexture(int size)
 			float deltaY = (float)y - centerY;
 			// 获取每个点的距离 从而计算出当前纹理a值
 			float distance = sqrtf(deltaX * deltaX + deltaY * deltaY);
-			float alpha = powf(1.0f - (distance * maxDistance), 8.0f);
+			float alpha = powf(1.0f - (distance / maxDistance), 8.0f);
 			alpha = alpha > 1.0f ? 1.0f : alpha;
 			imageData[currentPixelOffset + 3] = (unsigned char)(alpha * 255.0f);
 		}

@@ -33,8 +33,10 @@ public:
 	void Init(const char* vs, const char* fs);
 
 	void Bind(float* M, float* V, float* P);
-
+	// 设置从外部加载的纹理
 	void SetTexture(const char* name, const char* imagePath);
+	// 设置程序纹理
+	void SetTexture(const char* name, GLuint texture);
 
 	void SetVec4(const char* name, float x, float y, float z, float w);
 };
