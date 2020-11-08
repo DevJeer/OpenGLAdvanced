@@ -99,7 +99,9 @@ void Draw()
 	// 绘制模型
 	//model.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 	// 绘制牛头
-	niutou.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
+	//niutou.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
+	// 更新粒子的位置
+	ps.Update(frameTime);
 	// 绘制粒子
 	ps.Draw(viewMatrix, projectionMatrix);
 }

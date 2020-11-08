@@ -37,3 +37,20 @@ void ParticleSystem::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
 	glDisable(GL_POINT_SPRITE);
 	glDisable(GL_PROGRAM_POINT_SIZE);
 }
+
+void ParticleSystem::Update(float deltaTime)
+{
+	static float angle = 0.0f;
+	angle += deltaTime * 10.0f;
+	mModelMatrix = glm::rotate(angle, 0.0f, 1.0f, 0.0f);
+	for (int i = 0; i < mVertexBuffer->mVertexCount; ++i)
+	{
+		Vertex& vertex = mVertexBuffer->Get(i);
+		// yÖá
+		vertex.Normal[1] = 0.1f * i;
+		if (i > 90)
+		{
+			break;
+		}
+	}
+}

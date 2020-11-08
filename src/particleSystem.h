@@ -11,4 +11,6 @@ public:
 	void Init(float x, float y, float z);
 	// 绘制粒子
 	void Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix);
+	// 更新粒子的位置
+	void Update(float deltaTime);
 };
