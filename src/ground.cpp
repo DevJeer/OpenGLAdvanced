@@ -41,6 +41,15 @@ void Ground::Init()
 	// 加载shader
 	mShader = new Shader;
 	mShader->Init("Res/ground.vs", "Res/ground.fs");
+	mShader->SetVec4("U_LightPos", 0.0f, 0.0f, 1.0f, 0.0f);
+	// 环境光
+	mShader->SetVec4("U_LightAmbient", 1.0f, 1.0f, 1.0f, 1.0f);
+	// 漫反射
+	mShader->SetVec4("U_LightDiffuse", 1.0f, 1.0f, 1.0f, 1.0f);
+	// 环境光材质
+	mShader->SetVec4("U_AmbientMaterial", 0.1f, 0.1f, 0.1f, 1.0f);
+	//漫反射材质
+	mShader->SetVec4("U_DiffuseMaterial", 0.6f, 0.6f, 0.6f, 1.0f);
 }
 
 // 绘制地面
