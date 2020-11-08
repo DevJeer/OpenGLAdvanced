@@ -19,7 +19,7 @@ VertexBuffer* vertexbuffer;
 // 地面
 Ground ground;
 // 模型
-Model model;
+Model model, niutou;
 // 天空盒
 SkyBox skybox;
 void InitTriangle()
@@ -66,6 +66,10 @@ void Init()
 	model.SetTexture("Res/earth.bmp");
 	model.SetPosition(0.0f, 0.0f, 0.0f);
 	skybox.Init("Res/");
+
+	niutou.Init("Res/niutou.obj");
+	niutou.SetTexture("Res/niutou.bmp");
+	niutou.mModelMatrix = glm::translate(-0.5f, 0.0f, 4.0f) * glm::scale(0.05f, 0.05f, 0.05f);
 }
 
 // 设置视口的大小
@@ -87,4 +91,6 @@ void Draw()
 	ground.Draw(viewMatrix, projectionMatrix);
 	// 绘制模型
 	model.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
+	// 绘制牛头
+	niutou.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 }
