@@ -122,7 +122,8 @@ void Model::Init(const char* modelPath)
 	// 设置环境光
 	mShader->SetVec4("U_LightAmbient", 1.0f, 1.0f, 1.0f, 1.0f);
 	// 设置环境光 材质
-	mShader->SetVec4("U_AmbientMaterial", 0.1f, 0.1f, 0.1f, 1.0f);
+	SetAmbientMaterial(0.1f, 0.1f, 0.1f, 1.0f);
+	//mShader->SetVec4("U_AmbientMaterial", 0.1f, 0.1f, 0.1f, 1.0f);
 
 
 	// 设置光的位置
@@ -130,12 +131,14 @@ void Model::Init(const char* modelPath)
 	// 设置漫反射
 	mShader->SetVec4("U_LightDiffuse", 1.0f, 1.0f, 1.0f, 1.0f);
 	// 设置漫反射 材质
-	mShader->SetVec4("U_DiffuseMaterial", 0.6f, 0.6f, 0.6f, 1.0f);
+	SetDiffuseMaterial(0.6f, 0.6f, 0.6f, 1.0f);
+	//mShader->SetVec4("U_DiffuseMaterial", 0.6f, 0.6f, 0.6f, 1.0f);
 
 	// 设置镜面反射
 	mShader->SetVec4("U_LightSpecular", 1.0f, 1.0f, 1.0f, 1.0f);
 	// 设置镜面反射的材质
-	mShader->SetVec4("U_SpecularMaterial", 1.0f, 1.0f, 1.0f, 1.0f);
+	SetSpecularMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+	//mShader->SetVec4("U_SpecularMaterial", 1.0f, 1.0f, 1.0f, 1.0f);
 	// 设置摄像机的位置
 	mShader->SetVec4("U_CameraPos", 0.0f, 0.0f, 0.0f, 1.0f);
 	// 决定镜面反射光圈的大小
@@ -159,5 +162,20 @@ void Model::Draw(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
 void Model::SetPosition(float x, float y, float z)
 {
 	mModelMatrix = glm::translate(x, y, z);
+}
+// 设置模型环境光的材质
+void Model::SetAmbientMaterial(float r, float g, float b, float a)
+{
+	mShader->SetVec4("U_AmbientMaterial", r, g, b, a);
+}
+// 设置模型漫反射的材质
+void Model::SetDiffuseMaterial(float r, float g, float b, float a)
+{
+	mShader->SetVec4("U_DiffuseMaterial", r, g, b, a);
+}
+// 设置模型高光反射的材质
+void Model::SetSpecularMaterial(float r, float g, float b, float a)
+{
+	mShader->SetVec4("U_SpecularMaterial", r, g, b, a);
 }
 
