@@ -178,4 +178,8 @@ void Model::SetSpecularMaterial(float r, float g, float b, float a)
 {
 	mShader->SetVec4("U_SpecularMaterial", r, g, b, a);
 }
-
+// 设置物体的贴图
+void Model::SetTexture(const char* imagePath)
+{
+	mShader->SetTexture("U_Texture", imagePath);
+}
