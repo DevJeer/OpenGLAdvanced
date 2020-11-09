@@ -26,4 +26,6 @@ public:
 	void SetSpecularMaterial(float r, float g, float b, float a);
 
 	void SetTexture(const char* imagePath);
+
+	void SetTexture(GLuint texture);
 };

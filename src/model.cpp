@@ -184,3 +184,8 @@ void Model::SetTexture(const char* imagePath)
 {
 	mShader->SetTexture("U_Texture", imagePath);
 }
+// 设置物体的贴图
+void Model::SetTexture(GLuint texture)
+{
+	mShader->SetTexture("U_Texture", texture);
+}

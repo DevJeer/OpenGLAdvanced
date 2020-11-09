@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\framebufferObject.cpp" />
     <ClCompile Include="src\ground.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\model.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="src\vertexbuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\framebufferObject.h" />
     <ClInclude Include="src\ggl.h" />
     <ClInclude Include="src\ground.h" />
     <ClInclude Include="src\model.h" />
