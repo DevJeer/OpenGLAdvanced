@@ -6,6 +6,7 @@
 #include "model.h"
 #include "skybox.h"
 #include "particleSystem.h"
+#include "framebufferObject.h"
 
 GLuint vbo, ebo;
 GLuint program;
@@ -25,6 +26,9 @@ Model model, niutou;
 SkyBox skybox;
 // 粒子系统
 ParticleSystem ps;
+
+// frame buffer object
+FrameBufferObject* fbo;
 
 void InitTriangle()
 {
@@ -84,6 +88,10 @@ void SetViewPortSize(float width, float height)
 {
 	// 设置投影矩阵
 	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
+	fbo = new FrameBufferObject;
+	fbo->AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, (int)width, (int)height);
+	fbo->AttachDepthBuffer("depth", (int)width, (int)height);
+	fbo->Finish();
 }
 
 void Draw()
@@ -92,6 +100,8 @@ void Draw()
 	float frameTime = GetFrameTime();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// 启用fbo，让场景绘制的东西都绘制到fbo中去
+	fbo->Bind();
 	// 绘制天空盒
 	skybox.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 	// 绘制地面
@@ -104,4 +114,5 @@ void Draw()
 	ps.Update(frameTime);
 	// 绘制粒子
 	ps.Draw(viewMatrix, projectionMatrix);
+	fbo->UnBind();
 }
