@@ -6,5 +6,7 @@ uniform sampler2D U_Texture;
 varying vec4 V_Color;
 void main()
 {
-	gl_FragColor=texture2D(U_Texture,gl_PointCoord.xy)*V_Color;
+	vec4 color = texture2D(U_Texture,gl_PointCoord.xy)*V_Color;
+	gl_FragData[0] = color;
+	gl_FragData[1] = color;
 }

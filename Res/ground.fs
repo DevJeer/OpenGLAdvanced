@@ -28,5 +28,6 @@ void main()
 	//vec4 diffuseColor=U_LightDiffuse*U_DiffuseMaterial*diffuseIntensity;
 	vec4 diffuseColor=U_LightDiffuse*U_DiffuseMaterial*diffuseIntensity*attenuation*4;
 	color=ambientColor+diffuseColor;
-	gl_FragColor=color*V_Color;
+	gl_FragData[0]=color*V_Color;
+	gl_FragData[1]=color*V_Color;
 }

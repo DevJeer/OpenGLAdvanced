@@ -61,5 +61,6 @@ void main()
 		color = ambientColor + diffuseColor + GetPointLight();
 		color=color*texture2D(U_Texture,V_Texcoord.xy);
 	}
-	gl_FragColor=color;
+	gl_FragData[0]=color;
+	gl_FragData[1]=color;
 }
