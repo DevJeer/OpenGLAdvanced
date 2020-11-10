@@ -30,6 +30,10 @@ ParticleSystem ps;
 // frame buffer object
 FrameBufferObject* fbo;
 
+VertexBuffer* fsqVertex;
+Shader* fsqShader;
+glm::mat4 fsqViewMatrix;
+
 void InitTriangle()
 {
 	// 使用Vertexbuffer来绘制
@@ -97,6 +101,26 @@ void SetViewPortSize(float width, float height)
 	sphere.Init("Res/Sphere.obj");
 	sphere.SetTexture(fbo->GetBuffer("color1"));
 	sphere.mModelMatrix = glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(150.0f, 0.0f, 1.0f, 0.0f);
+
+	// 设置四边形
+	fsqVertex = new VertexBuffer;
+	fsqVertex->SetSize(4);
+	// 1
+	fsqVertex->SetPosition(0, -0.5f, -0.5f, -1.0f);
+	fsqVertex->SetTexcrood(0, 0.0f, 0.0f);
+	// 2
+	fsqVertex->SetPosition(1, 0.5f, -0.5f, -1.0f);
+	fsqVertex->SetTexcrood(1, 1.0f, 0.0f);
+	// 3
+	fsqVertex->SetPosition(2, -0.5f, 0.5f, -1.0f);
+	fsqVertex->SetTexcrood(2, 0.0f, 1.0f);
+	// 4
+	fsqVertex->SetPosition(3, 0.5f, 0.5f, -1.0f);
+	fsqVertex->SetTexcrood(3, 1.0f, 1.0f);
+
+	fsqShader = new Shader;
+	fsqShader->Init("Res/texture.vs", "Res/texture.fs");
+	fsqShader->SetTexture("U_Texture", fbo->GetBuffer("color"));
 }
 
 void Draw()
@@ -121,5 +145,11 @@ void Draw()
 	ps.Draw(viewMatrix, projectionMatrix);
 	fbo->UnBind();
 	// 绘制球
-	sphere.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
+	//sphere.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
+
+	// 绘制四边形
+	fsqVertex->Bind();
+	fsqShader->Bind(glm::value_ptr(modelMatrix), glm::value_ptr(fsqViewMatrix), glm::value_ptr(projectionMatrix));
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, fsqVertex->mVertexCount);
+	fsqVertex->Unbind();
 }
