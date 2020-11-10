@@ -87,21 +87,8 @@ void Init()
 	ps.Init(0.0f, 0.0f, 0.0f);
 }
 
-// 设置视口的大小
-void SetViewPortSize(float width, float height)
+void CPUQuad(float width, float height)
 {
-	// 设置投影矩阵
-	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
-	fbo = new FrameBufferObject;
-	fbo->AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, (int)width, (int)height);
-	fbo->AttachColorBuffer("color1", GL_COLOR_ATTACHMENT1, (int)width, (int)height);
-	fbo->AttachDepthBuffer("depth", (int)width, (int)height);
-	fbo->Finish();
-
-	sphere.Init("Res/Sphere.obj");
-	sphere.SetTexture(fbo->GetBuffer("color1"));
-	sphere.mModelMatrix = glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(150.0f, 0.0f, 1.0f, 0.0f);
-
 	// 设置四边形
 	// 计算距离摄像机z轴-0.2距离的视锥体的四边形
 	float aspect = width / height;
@@ -124,9 +111,42 @@ void SetViewPortSize(float width, float height)
 	// 4
 	fsqVertex->SetPosition(3, x, y, -0.2f);
 	fsqVertex->SetTexcrood(3, 1.0f, 1.0f);
+}
+
+// 设置视口的大小
+void SetViewPortSize(float width, float height)
+{
+	// 设置投影矩阵
+	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
+	fbo = new FrameBufferObject;
+	fbo->AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, (int)width, (int)height);
+	fbo->AttachColorBuffer("color1", GL_COLOR_ATTACHMENT1, (int)width, (int)height);
+	fbo->AttachDepthBuffer("depth", (int)width, (int)height);
+	fbo->Finish();
+
+	sphere.Init("Res/Sphere.obj");
+	sphere.SetTexture(fbo->GetBuffer("color1"));
+	sphere.mModelMatrix = glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(150.0f, 0.0f, 1.0f, 0.0f);
+
+	// 设置四边形  GPU版
+	fsqVertex = new VertexBuffer;
+	fsqVertex->SetSize(4);
+	// 1
+	// z不能>1 因为它在边长为1的立方体盒子里面
+	fsqVertex->SetPosition(0, -1.0f, -1.0f, -0.2f);
+	fsqVertex->SetTexcrood(0, 0.0f, 0.0f);
+	// 2
+	fsqVertex->SetPosition(1, 1.0f, -1.0f, -0.2f);
+	fsqVertex->SetTexcrood(1, 1.0f, 0.0f);
+	// 3
+	fsqVertex->SetPosition(2, -1.0f, 1.0f, -0.2f);
+	fsqVertex->SetTexcrood(2, 0.0f, 1.0f);
+	// 4
+	fsqVertex->SetPosition(3, 1.0f, 1.0f, -0.2f);
+	fsqVertex->SetTexcrood(3, 1.0f, 1.0f);
 
 	fsqShader = new Shader;
-	fsqShader->Init("Res/texture.vs", "Res/texture.fs");
+	fsqShader->Init("Res/fullscreenquad.vs", "Res/texture.fs");
 	fsqShader->SetTexture("U_Texture", fbo->GetBuffer("color"));
 }
 
