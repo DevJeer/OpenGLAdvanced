@@ -21,7 +21,7 @@ VertexBuffer* vertexbuffer;
 // 地面
 Ground ground;
 // 模型
-Model model, niutou;
+Model model, niutou, sphere;
 // 天空盒
 SkyBox skybox;
 // 粒子系统
@@ -92,13 +92,17 @@ void SetViewPortSize(float width, float height)
 	fbo->AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, (int)width, (int)height);
 	fbo->AttachDepthBuffer("depth", (int)width, (int)height);
 	fbo->Finish();
+
+	sphere.Init("Res/Sphere.obj");
+	sphere.SetTexture(fbo->GetBuffer("color"));
+	sphere.mModelMatrix = glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(150.0f, 0.0f, 1.0f, 0.0f);
 }
 
 void Draw()
 {
 	// 获取每帧的时间
 	float frameTime = GetFrameTime();
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// 启用fbo，让场景绘制的东西都绘制到fbo中去
 	fbo->Bind();
@@ -115,4 +119,6 @@ void Draw()
 	// 绘制粒子
 	ps.Draw(viewMatrix, projectionMatrix);
 	fbo->UnBind();
+	// 绘制球
+	sphere.Draw(viewMatrix, projectionMatrix, cameraPos.x, cameraPos.y, cameraPos.z);
 }
