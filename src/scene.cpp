@@ -103,19 +103,26 @@ void SetViewPortSize(float width, float height)
 	sphere.mModelMatrix = glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(150.0f, 0.0f, 1.0f, 0.0f);
 
 	// 设置四边形
+	// 计算距离摄像机z轴-0.2距离的视锥体的四边形
+	float aspect = width / height;
+	float halfFOV = 60.0f / 2.0f;
+	float randianHalfFOV = 3.14f * halfFOV / 180.0f;
+	float tanHalfFOV = sinf(randianHalfFOV) / cosf(randianHalfFOV);
+	float y = tanHalfFOV * 0.2f;
+	float x = y * aspect;
 	fsqVertex = new VertexBuffer;
 	fsqVertex->SetSize(4);
 	// 1
-	fsqVertex->SetPosition(0, -0.5f, -0.5f, -1.0f);
+	fsqVertex->SetPosition(0, -x, -y, -0.2f);
 	fsqVertex->SetTexcrood(0, 0.0f, 0.0f);
 	// 2
-	fsqVertex->SetPosition(1, 0.5f, -0.5f, -1.0f);
+	fsqVertex->SetPosition(1, x, -y, -0.2f);
 	fsqVertex->SetTexcrood(1, 1.0f, 0.0f);
 	// 3
-	fsqVertex->SetPosition(2, -0.5f, 0.5f, -1.0f);
+	fsqVertex->SetPosition(2, -x, y, -0.2f);
 	fsqVertex->SetTexcrood(2, 0.0f, 1.0f);
 	// 4
-	fsqVertex->SetPosition(3, 0.5f, 0.5f, -1.0f);
+	fsqVertex->SetPosition(3, x, y, -0.2f);
 	fsqVertex->SetTexcrood(3, 1.0f, 1.0f);
 
 	fsqShader = new Shader;
