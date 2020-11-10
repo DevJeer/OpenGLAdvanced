@@ -90,11 +90,12 @@ void SetViewPortSize(float width, float height)
 	projectionMatrix = glm::perspective(60.0f, width / height, 0.1f, 1000.0f);
 	fbo = new FrameBufferObject;
 	fbo->AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, (int)width, (int)height);
+	fbo->AttachColorBuffer("color1", GL_COLOR_ATTACHMENT1, (int)width, (int)height);
 	fbo->AttachDepthBuffer("depth", (int)width, (int)height);
 	fbo->Finish();
 
 	sphere.Init("Res/Sphere.obj");
-	sphere.SetTexture(fbo->GetBuffer("color"));
+	sphere.SetTexture(fbo->GetBuffer("color1"));
 	sphere.mModelMatrix = glm::scale(4.0f, 4.0f, 4.0f) * glm::rotate(150.0f, 0.0f, 1.0f, 0.0f);
 }
 
